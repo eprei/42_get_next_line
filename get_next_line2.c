@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Emiliano <Emiliano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,41 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
 #include "get_next_line.h"
-#define BUFFER_SIZE 100
+#define BUFFER_SIZE 500
 
-int ft_line_len(char *str)
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+size_t	ft_linelen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+int ft_line_len(char *line)
 {
     int    i;
 
     i = 0;
-    while (str[i] != '\n' && str[i] != '\0')
+    while (line[i] != '\n' && line[i] != '\0')
         i++;
     return (i); 
 }
 
 char	*get_next_line(int fd)
 {
-	int			len;
+	ssize_t		len;
 	static char	buffer[BUFFER_SIZE + 1];
-	char		*str;
-	char		*line;
-	static int	i = 0;
-	int			j;
+	char		*dst;
+    char        *tmp;
+    static int  i = 0;
+    int         j;
 
-	i = 0;
-	read(fd, buffer, BUFFER_SIZE);
-	len = ft_line_len(buffer);
+    j = 0;
+	len = read(fd, buffer, BUFFER_SIZE);
 	buffer[len] = '\0';
-	str = (char *)malloc(len + 1);
-	if (! str)
-		return (0);
-	while (buffer[i] != '\n' && buffer[i] != '\0')
-		str[j++] = buffer[i++];
-	str[j] = '\0';
-	i++;
-	return (str);
+    tmp = dst;
+    while (buffer[i] != '\n')
+    {
+        dst[j] = buffer[i];
+        i++;
+        j++;
+    }
+	dst[j] = '\0';
+    return (tmp);
 }
 
 int main()
@@ -52,7 +71,7 @@ int main()
 	int	fd;
 	char *linea = NULL;
 
-	fd = open("hola", O_RDONLY);
+	fd = open("TextToRead", O_RDONLY);
 	linea = get_next_line(fd);
 	printf("%s\n", linea);
 	linea = get_next_line(fd);
