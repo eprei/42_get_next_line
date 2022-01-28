@@ -6,7 +6,7 @@
 /*   By: Emiliano <Emiliano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:40:39 by epresa-c          #+#    #+#             */
-/*   Updated: 2021/12/23 18:00:49 by Emiliano         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:01:10 by Emiliano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+
+#  ifndef BUFFER_SIZE
+#   define BUFFER_SIZE 100
+#  endif
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);

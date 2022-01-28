@@ -6,12 +6,12 @@
 /*   By: Emiliano <Emiliano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:40:14 by epresa-c          #+#    #+#             */
-/*   Updated: 2022/01/24 16:00:27 by Emiliano         ###   ########.fr       */
+/*   Updated: 2022/01/27 17:48:49 by Emiliano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#define BUFFER_SIZE 500
+//#define BUFFER_SIZE 4096
 
 size_t	ft_strlen(const char *s)
 {
@@ -47,34 +47,22 @@ char	*get_next_line(int fd)
 {
 	ssize_t		len;
 	static char	buffer[BUFFER_SIZE + 1];
-	char		*dst;
-    char        *tmp;
-    static int  i = 0;
-    int         j;
 
-    j = 0;
-	len = read(fd, buffer, BUFFER_SIZE);
-	buffer[len] = '\0';
-    tmp = dst;
-    while (buffer[i] != '\n')
-    {
-        dst[j] = buffer[i];
-        i++;
-        j++;
-    }
-	dst[j] = '\0';
-    return (tmp);
+	if (fd < 0)
+		return (0);
+	while ((len = read(fd, buffer, BUFFER_SIZE)))
+	{
+		buffer[len] = '\0';
+		
+	}
+	return (buffer);
 }
 
 int main()
 {
 	int	fd;
-	char *linea = NULL;
 
 	fd = open("TextToRead", O_RDONLY);
-	linea = get_next_line(fd);
-	printf("%s\n", linea);
-	linea = get_next_line(fd);
-	printf("%s\n", linea);
+	printf("%s\n", get_next_line(fd));
 	return (0);
 }
