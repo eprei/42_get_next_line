@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Emiliano <Emiliano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: epresa-c <epresa-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:40:14 by epresa-c          #+#    #+#             */
-/*   Updated: 2022/01/27 12:48:24 by Emiliano         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:04:54 by epresa-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ char	*ft_strdup(const char *s1)
 	return (ptr);
 }
 
-size_t line_len(const char *line)
+size_t	line_len(const char *line)
 {
-    size_t	i;
+	size_t	i;
 
-    i = 0;
-    while (line[i] != '\n' && line[i] != '\0')
-        i++;
-    return (i); 
+	i = 0;
+	while (line[i] != '\n' && line[i] != '\0')
+		i++;
+	return (i);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -126,7 +126,7 @@ char	*get_next_line(int fd)
 {
 	ssize_t		ret;
 	char		buf[BUFFER_SIZE + 1];
-	static char *line;
+	static char	*line;
 	char		*tmp;
 	char		*tmp_buf;
 	size_t		line_size;

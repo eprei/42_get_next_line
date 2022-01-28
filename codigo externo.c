@@ -257,7 +257,7 @@ int			get_next_line(const int fd, char **line)
 	}
 	return (output(s, line, ret, fd));
 }
-
+/*
 int main()
 {
 	int	fd;
@@ -276,5 +276,28 @@ int main()
 	printf("%s\n", line);
     get_next_line(fd, &line);
 	printf("%s\n", line);
+	return (0);
+}
+*/
+int main()
+{
+	int	fd;
+	char	*linea = NULL;
+
+	fd = open("TextToRead", O_RDONLY);
+	linea = get_next_line(fd);
+	printf("%s", linea);
+	linea = get_next_line(fd);
+	printf("%s", linea);
+	linea = get_next_line(fd);
+	printf("%s", linea);
+	linea = get_next_line(fd);
+	printf("%s", linea);
+	linea = get_next_line(fd);
+	printf("%s", linea);
+	linea = get_next_line(fd);
+	printf("%s", linea);
+	linea = get_next_line(fd);
+	printf("%s", linea);
 	return (0);
 }

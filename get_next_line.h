@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Emiliano <Emiliano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: epresa-c <epresa-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:40:39 by epresa-c          #+#    #+#             */
-/*   Updated: 2022/01/26 17:01:10 by Emiliano         ###   ########.fr       */
+/*   Updated: 2022/01/28 16:48:00 by epresa-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,17 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-#  ifndef BUFFER_SIZE
-#   define BUFFER_SIZE 100
-#  endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
+char	*ft_strdup(const char *s1);
+size_t	line_len(const char *line);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strchr(const char *s, int c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+void	cut_line_and_offset(char **line_cuted, char **line_to_cut_and_offset);
 
 #endif

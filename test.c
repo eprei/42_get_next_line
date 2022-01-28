@@ -11,14 +11,14 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-size_t line_len(const char *line)
+size_t	line_len(const char *line)
 {
-    size_t	i;
+	size_t	i;
 
-    i = 0;
-    while (line[i] != '\n' && line[i] != '\0')
-        i++;
-    return (i); 
+	i = 0;
+	while (line[i] != '\n' && line[i] != '\0')
+		i++;
+	return (i);
 }
 
 char	*ft_strdup(const char *s1)
@@ -66,28 +66,30 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-char    *cut_line_and_offset(char **line_to_cut_and_offset) //add other parameter to the return line like codigo externo and modify it directly
+void	cut_line_and_offset(char **line_cuted, char **line_to_cut_and_offset) //add other parameter to the return line like codigo externo and modify it directly
 {
-    char 	*line_cuted;
+//	char	*line_cuted;
 	size_t	line_size;
 	char	*tmp;
-	
-    line_size = line_len(*line_to_cut_and_offset);
+
+	line_size = line_len(*line_to_cut_and_offset);
 	tmp = ft_substr(*line_to_cut_and_offset, 0, line_size + 1);
-	line_cuted = tmp;	
+	*line_cuted = tmp;
 //	free(tmp);
 	tmp = ft_strdup(&((*line_to_cut_and_offset)[line_size + 1]));
 	*line_to_cut_and_offset = tmp;
 //	free(tmp);
-    return (line_cuted);
+	tmp = NULL;
+	return (0);
 }
 
 int main()
 {
-    char *str = "Esto\nes\nuna\nprueba";
-    char *cortada = cut_line_and_offset(&str);
+	char	*a_cortar = "Esto\nes\nuna\nprueba";
+	char	*nueva_linea;
 
-    printf("%s", cortada);
-    printf("%s\n", str);
-    return (0);
+	cut_line_and_offset(&nueva_linea, &a_cortar);
+	printf("%s---", nueva_linea);
+	printf("%s---", a_cortar);
+	return (0);
 }
