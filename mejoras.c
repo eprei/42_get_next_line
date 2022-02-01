@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   mejoras.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Emiliano <Emiliano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:40:14 by epresa-c          #+#    #+#             */
-/*   Updated: 2022/02/01 16:37:56 by Emiliano         ###   ########.fr       */
+/*   Updated: 2022/02/01 13:00:06 by Emiliano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	cut_line_and_offset(char **line_cuted, char **line_to_cut_and_offset)
 	line_size = line_len(*line_to_cut_and_offset);
 	tmp = ft_substr(*line_to_cut_and_offset, 0, line_size + 1);
 	*line_cuted = tmp;
-	tmp = NULL;
 	tmp = ft_strdup(&((*line_to_cut_and_offset)[line_size + 1]));
 	*line_to_cut_and_offset = tmp;
 	tmp = NULL;
@@ -55,45 +54,44 @@ void	cut_line_and_offset(char **line_cuted, char **line_to_cut_and_offset)
 
 char	*get_next_line(int fd)
 {
-	ssize_t		ret = BUFFER_SIZE;
+	ssize_t		ret;
 	char		buf[BUFFER_SIZE + 1];
-	static char	*str;
+	static char	*str = NULL;
 	char		*tmp;
-	char		*line_return;
+	char		*line_return = NULL;
 
+	ret = BUFFER_SIZE;
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (0);
 	while (ret > 0)
 	{
 		ret = read(fd, buf, BUFFER_SIZE);
+		if (ret == -1)
+			return (NULL);
 		buf[ret] = '\0';
-		if (ret == 0)
-			break;
 		if (str == NULL)
 			str = ft_strdup(buf);
-		else
-		{
-			tmp = ft_strjoin(str, buf);
-			free(str);
-			str = tmp;
-			tmp = NULL;
-		}
-		if (ft_strchr(str, '\n'))
+		tmp = str;
+		str = ft_strjoin(tmp, buf);
+		free(tmp);
+		if (ft_strchr(str, '\n') || ft_strchr(str, '\n'))
 			break;
 	}
-	if (str == NULL)
-		return (NULL);
-	if (str[0] == '\0')
+	if (ret == 0 && (str[0] == '\0'))
 	{
 		free(str);
-		free(tmp);
-		//str = NULL;
+		free(line_return);
+		str = NULL;
+		line_return = NULL;
 		return (NULL);
 	}
-	cut_line_and_offset(&line_return, &str);
-	return (line_return);
+	else
+	{
+		cut_line_and_offset(&line_return, &str);
+		return (line_return);
+	}
 }
-/*
+
 int main()
 {
 	int	fd;
@@ -115,4 +113,4 @@ int main()
 	linea = get_next_line(fd);
 	printf("%s", linea);
 	return (0);
-}*/
+}
