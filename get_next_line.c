@@ -6,7 +6,7 @@
 /*   By: epresa-c <epresa-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:40:14 by epresa-c          #+#    #+#             */
-/*   Updated: 2022/02/16 14:25:50 by epresa-c         ###   ########.fr       */
+/*   Updated: 2022/02/16 16:12:31 by epresa-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,29 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+void	ft_refill_storage(char **storage, int fd, int ret, char *buf)
+{
+	char	*tmp;
+
+	while (ret > 0)
+	{
+		if (*storage == NULL)
+			*storage = ft_strdup("");
+		else
+		{	
+			buf[ret] = '\0';
+			tmp = ft_strjoin(*storage, buf);
+			free(*storage);
+			*storage = tmp;
+			tmp = NULL;
+			if (ft_strchr(buf, '\n'))
+				break ;
+			ret = read(fd, buf, BUFFER_SIZE);
+			buf[ret] = '\0';
+		}
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	static char		*storage = NULL;
@@ -46,7 +69,7 @@ char	*get_next_line(int fd)
 	char			buf[BUFFER_SIZE + 1];
 	int				line_size;
 	char			*tmp;
-	ssize_t			ret;
+	int				ret;
 
 	next_line = NULL;
 	if (fd < 0 || BUFFER_SIZE < 1)
@@ -59,23 +82,7 @@ char	*get_next_line(int fd)
 		free(next_line);
 		next_line = NULL;
 	}
-	while (ret > 0)
-	{
-		if (storage == NULL)
-			storage = ft_strdup("");
-		else
-		{	
-			buf[ret] = '\0';
-			tmp = ft_strjoin(storage, buf);
-			free(storage);
-			storage = tmp;
-			tmp = NULL;
-			if (ft_strchr(buf, '\n'))
-				break ;
-			ret = read(fd, buf, BUFFER_SIZE);
-			buf[ret] = '\0';
-		}
-	}
+	ft_refill_storage(&storage, fd, ret, buf);
 	if (storage != NULL)
 	{
 		line_size = line_len(storage);
