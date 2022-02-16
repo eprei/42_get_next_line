@@ -6,7 +6,7 @@
 /*   By: epresa-c <epresa-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:40:14 by epresa-c          #+#    #+#             */
-/*   Updated: 2022/02/16 16:12:31 by epresa-c         ###   ########.fr       */
+/*   Updated: 2022/02/16 16:33:10 by epresa-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,37 @@ void	ft_refill_storage(char **storage, int fd, int ret, char *buf)
 	}
 }
 
+void	ft_copy_next_line_and_offset_storage(char **storage, char **next_line)
+{
+	char	*tmp;
+	size_t	line_size;
+
+	if (*storage != NULL)
+	{
+		line_size = line_len(*storage);
+		if (ft_strchr(*storage, '\n'))
+		{
+			*next_line = ft_substr(*storage, 0, line_size + 1);
+			tmp = ft_strdup(&(*storage)[line_size + 1]);
+			free(*storage);
+			*storage = tmp;
+			tmp = NULL;
+		}
+		else
+		{
+			if (line_size != 0)
+				*next_line = ft_substr(*storage, 0, line_size);
+			free(*storage);
+			*storage = NULL;
+		}
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	static char		*storage = NULL;
 	char			*next_line;
 	char			buf[BUFFER_SIZE + 1];
-	int				line_size;
-	char			*tmp;
 	int				ret;
 
 	next_line = NULL;
@@ -83,24 +107,6 @@ char	*get_next_line(int fd)
 		next_line = NULL;
 	}
 	ft_refill_storage(&storage, fd, ret, buf);
-	if (storage != NULL)
-	{
-		line_size = line_len(storage);
-		if (ft_strchr(storage, '\n'))
-		{
-			next_line = ft_substr(storage, 0, line_size + 1);
-			tmp = ft_strdup(&(storage)[line_size + 1]);
-			free(storage);
-			storage = tmp;
-			tmp = NULL;
-		}
-		else
-		{
-			if (line_size != 0)
-				next_line = ft_substr(storage, 0, line_size);
-			free(storage);
-			storage = NULL;
-		}
-	}
+	ft_copy_next_line_and_offset_storage(&storage, &next_line);
 	return (next_line);
 }
