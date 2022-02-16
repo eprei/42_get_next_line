@@ -6,7 +6,7 @@
 /*   By: epresa-c <epresa-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:40:39 by epresa-c          #+#    #+#             */
-/*   Updated: 2022/01/28 16:48:00 by epresa-c         ###   ########.fr       */
+/*   Updated: 2022/02/16 12:56:46 by epresa-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ size_t	line_len(const char *line);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	cut_line_and_offset(char **line_cuted, char **line_to_cut_and_offset);
 
 #endif
